@@ -48,13 +48,17 @@ def main():
     chatgpt_handler=MessageHandler(Filters.text & (~Filters.command),equiped_chatgpt)
     dispatcher.add_handler(chatgpt_handler)
 
-#dispatchers for self defined cmd
+#add self-defined funcs as handlers to the dispatcher for handling cmd
     dispatcher.add_handler(CommandHandler("add",add_cmd))
     dispatcher.add_handler(CommandHandler("help",help_cmd))
     dispatcher.add_handler(CommandHandler("hello",hello_cmd))
     
-#start chatbot
+#start my chatbot
+#my chatbot periodically sends requests to the Telegram server to check for new messages
+#getUpdates methods
     updater.start_polling()
+#idle() enters an infinite loop,
+#ensuring my chatbot remains active until manually terminated
     updater.idle()
 
 
@@ -68,6 +72,7 @@ def echo(update,context):
 # no return value
 #Send a message when the command /help is issue.
 def help_cmd(update:Update,context:CallbackContext):
+    logging.info("help_cmd")
     update.message.reply_text("Helping you.")
 
 
@@ -77,7 +82,7 @@ def add_cmd(update:Update,context:CallbackContext):
     try:
         global redis1
         # memory the user's input keyword
-        logging.info(context.args[0])
+        logging.info("add_cmd_keyword:"+context.args[0])
         # usr_msg local varieble in this func
         usr_msg = context.args[0]
         redis1.incr(usr_msg)
@@ -93,7 +98,7 @@ def hello_cmd(update:Update,context:CallbackContext):
     try:
         #here no need redis
         #memory the user's input name
-        logging.info(context.args[0])
+        logging.info("hello_cmd_name:"+context.args[0])
         #usr_msg local varieble in this func
         usr_msg = context.args[0]
         update.message.reply_text('Good day , '+usr_msg+' !')
