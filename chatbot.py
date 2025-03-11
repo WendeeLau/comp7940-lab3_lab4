@@ -45,7 +45,7 @@ def main():
 #dispater for chatgpt
     global chatgpt
     chatgpt=HKBU_ChatGPT(config)
-    chatgpt_handler=MessageHandler(Filters.text & (~Filters.command),equiped_chatgpt)
+    chatgpt_handler=MessageHandler(Filters.text & (~Filters.command),equipped_chatgpt)
     dispatcher.add_handler(chatgpt_handler)
 
 #add self-defined funcs as handlers to the dispatcher for handling cmd
@@ -106,7 +106,7 @@ def hello_cmd(update:Update,context:CallbackContext):
         update.message.reply_text('Usage: /hello <your name>')
 
 #use ChatGPT API
-def equiped_chatgpt(update,context):
+def equipped_chatgpt(update,context):
     global chatgpt
     reply_message=chatgpt.submit(update.message.text)
     logging.info("Update:"+str(update))
