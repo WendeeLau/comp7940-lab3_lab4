@@ -4,7 +4,7 @@ on:
     branches:
       - main     # change to main if needed
   
-  job:
+  jobs:
     deploy:
       name: Deploy app
       runs-on: ubuntu-latest
